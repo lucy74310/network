@@ -15,28 +15,27 @@ public class NSLoockup {
 			
 			br = new BufferedReader(isr);
 			
-			//호스트 명
 			String hostname = null;
 			System.out.println("To close connection, enter \"exit\"");
 			System.out.print(">>");
 			while((hostname = br.readLine()) != null) {
-				
 				if(hostname.equals("exit")) break;
 				
-				//호스트 명 ip[]
-				InetAddress[] inetAddresses = InetAddress.getAllByName(hostname);
-				
-				//ip 출력
-				if(inetAddresses != null) {
-					System.out.println("[addresses]");
-					for(InetAddress addr : inetAddresses) {
-						System.out.println(addr.getHostAddress());
+				try {
+					//get
+					InetAddress[] inetAddresses = InetAddress.getAllByName(hostname);
+					
+					if(inetAddresses != null) {
+						System.out.println("[addresses]");
+						for(InetAddress addr : inetAddresses) {
+							System.out.println(addr.getHostAddress());
+						}
 					}
-					System.out.print(">>");
+				} catch (IOException e) {
+					System.out.println("해당 호스트를 찾을 수 없습니다.");
 				}
+				System.out.print(">>");
 			}
-			
-			
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
