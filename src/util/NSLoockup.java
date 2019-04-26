@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-public class NSloockup {
+public class NSLoockup {
 
 	public static void main(String[] args) throws UnknownHostException {
 		BufferedReader br = null;
@@ -18,10 +18,8 @@ public class NSloockup {
 			//호스트 명
 			String hostname = null;
 			System.out.println("To close connection, enter \"exit\"");
+			System.out.print(">>");
 			while((hostname = br.readLine()) != null) {
-				
-				if(hostname == null) System.out.println("host is null"); 
-				else System.out.println("host:" + hostname);
 				
 				if(hostname.equals("exit")) break;
 				
@@ -31,10 +29,10 @@ public class NSloockup {
 				//ip 출력
 				if(inetAddresses != null) {
 					System.out.println("[addresses]");
-					
 					for(InetAddress addr : inetAddresses) {
 						System.out.println(addr.getHostAddress());
 					}
+					System.out.print(">>");
 				}
 			}
 			
