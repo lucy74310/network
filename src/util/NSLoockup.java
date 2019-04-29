@@ -19,8 +19,10 @@ public class NSLoockup {
 			System.out.println("To close connection, enter \"exit\"");
 			System.out.print(">>");
 			while((hostname = br.readLine()) != null) {
-				if(hostname.equals("exit")) break;
-				
+				//내가짠코드
+				//if(hostname.equals("exit")) break;
+				//안전한코드 => null exception 일어날일 없다
+				if("exit".equals(hostname)) break;
 				try {
 					//get
 					InetAddress[] inetAddresses = InetAddress.getAllByName(hostname);

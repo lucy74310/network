@@ -7,6 +7,7 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 
 public class TCPServer {
 
@@ -20,13 +21,14 @@ public class TCPServer {
 			//	: Socket에 SocketAddress(IPAddress + Port)를 바인딩 한다.
 			InetAddress inetAddress = InetAddress.getLocalHost();
 			
+			//X
 			//localhost가 -가 나오므로 다른 방식으로 바인딩
 			//String localhost = inetAddress.getHostAddress();
-			
-			//X
 			//serverSocket.bind(new InetSocketAddress(localhost, 5000));
+			
 			//O (telnet 127.0.0.1 5000)
-			serverSocket.bind(new InetSocketAddress("0.0.0.0", 5000));
+			serverSocket.bind(new InetSocketAddress("0.0.0.0", 6001));
+			
 			//O (telnet 192.168.56.1 5000)
 			//serverSocket.bind(new InetSocketAddress(inetAddress, 5000));
 			
@@ -72,10 +74,12 @@ public class TCPServer {
 					String data = new String(buffer, 0, readByteCount , "utf-8");
 					System.out.println("[server] received:" + data);
 					
-					//6. 데이터 쓰기 -> 에코서버
+					//6. 데이터 쓰기 
 					os.write(data.getBytes("utf-8"));
 				}
 				
+			} catch(SocketException e) {
+				System.out.println("[server] sudden cloased by client");
 			} catch(IOException e) {
 				e.printStackTrace();
 			} finally {
