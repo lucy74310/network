@@ -23,6 +23,7 @@ public class UDPEchoClient {
 			
 			//1. Scanner 생성 (표준입력 연결)
 			scanner = new Scanner(System.in);
+			
 			//2. 소켓 생성
 			socket= new DatagramSocket();
 			
