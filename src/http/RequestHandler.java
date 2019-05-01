@@ -7,10 +7,27 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 
 public class RequestHandler extends Thread {
-	private static final String DOCUMENT_ROOT = "./webapp";
+	private static String documentRoot = "./webapp";
+	
+	static { // 클래스가 로딩될때 이부분이 실행된다 //항상 접근 가능 ?? 
+		try {
+			documentRoot = new File(RequestHandler.
+					class.
+					getProtectionDomain().
+					getCodeSource().
+					getLocation().
+					toURI()).
+					getPath();
+			documentRoot += "/webapp";
+			System.out.println("---> " + documentRoot);
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	private Socket socket;
 	
@@ -94,8 +111,8 @@ public class RequestHandler extends Thread {
 			url = "/index.html"; //웰컴파일 설정 보통 상용 was는 설정파일에서 설정
 		}
 		
-		//FileInputStream fs = new FileInputStream( DOCUMENT_ROOT + url);
-		File file = new File( DOCUMENT_ROOT + url);
+		//FileInputStream fs = new FileInputStream( documentRoot + url);
+		File file = new File( documentRoot + url);
 		if(file.exists() == false) {
 			//응답 예시
 			// HTTP/1.1 404 File Not Found\r\n (r : carriage return(맨 앞으로) n : new line(다음라인으로) 리눅스는 rn 윈도우는 n안에 r 들어있음)
@@ -121,7 +138,7 @@ public class RequestHandler extends Thread {
 		
 	}
 	public void response400Error(OutputStream os,String protocol) throws IOException {
-		File file = new File(DOCUMENT_ROOT + "/error/400.html");
+		File file = new File(documentRoot + "/error/400.html");
 
 		//nio(new io) 
 		byte[] body = Files.readAllBytes(file.toPath());
@@ -139,7 +156,7 @@ public class RequestHandler extends Thread {
 	 	// Content-Type : text/html; charset=utf-8\r\n
 		// \r\n
 		// HTML 에러 문서(./webapp/error/404.html)
-		File file = new File(DOCUMENT_ROOT + "/error/404.html");
+		File file = new File(documentRoot + "/error/404.html");
 
 		//nio(new io) 
 		byte[] body = Files.readAllBytes(file.toPath());

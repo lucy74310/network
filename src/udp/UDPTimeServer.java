@@ -7,7 +7,6 @@ import java.net.DatagramSocket;
 import java.net.SocketException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
 public class UDPTimeServer {
 	public static final int PORT = 8000;
@@ -56,7 +55,7 @@ public class UDPTimeServer {
 	public static void sendTime(DatagramSocket socket, DatagramPacket receivePacket) {
 		try {
 			SimpleDateFormat format = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss a" );
-			String date = format.format( new Date() );
+			String date = format.format( Calendar.getInstance().getTime() );
 			byte[] data = date.getBytes("UTF-8");
 			int length = data.length;
 			DatagramPacket sendPacket = new DatagramPacket(data,length,
